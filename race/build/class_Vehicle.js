@@ -58,19 +58,20 @@ MUST CONTAIN 3 ATTRIBUTES
         //****************************************************************************************************** */
         // This method take a boolean argument to define if the conditions are good to launch the "divre phase"
         //****************************************************************************************************** */
-        Vehicle.prototype.rouler = function (statut) {
+        Vehicle.prototype.rouler = function (status) {
             var _this = this;
-            var timer;
-            if (statut == true) // If conditions to drive are good, we enter the Method
+            if (status == true) // If conditions to drive are good, we enter the Method
              {
-                timer = setInterval((function () {
-                    _this._vitesse_actuelle = _this.Accelerate(); // is a method that will increase the speed each cycle till the max speed is reached 
+                this.timer = setInterval((function () {
+                    _this._vitesse_actuelle += _this.Accelerate(); // is a method that will increase the speed each cycle till the max speed is reached 
                     _this._consommation = _this.Consuming(); // is a method that return the fuel consuming ratio accordingly to the accelerate ratio
-                    _this._distance_parcourue = _this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
+                    _this._distance_parcourue += _this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
+                    _this._fuelLevel = _this.FuelLevel();
+                    _this.ShowInfos();
                 }), this._refreshRate);
             }
             else {
-                clearInterval(timer);
+                clearInterval(this.timer);
             }
         };
         ////////////////////////////////////
@@ -103,6 +104,21 @@ MUST CONTAIN 3 ATTRIBUTES
         //////////////////////////////////// / is a method that determinate the traveled distance by second and adapt to the timer's refresh rate  
         Vehicle.prototype.Distance = function () {
             return this._vitesse_actuelle / 3600 * (this._refreshRate / 1000);
+        };
+        Vehicle.prototype.FuelLevel = function () {
+            var consoSec = this._consommation * this.Distance() / 100;
+            return this._fuelLevel - consoSec;
+        };
+        Vehicle.prototype.ShowInfos = function () {
+            console.log("//////////////////////////////////////////////////");
+            console.log("//////////////////////////////////////////////////");
+            console.log("//////////////////////////////////////////////////");
+            console.log("distance parcourue : " + this._distance_parcourue);
+            console.log("vitesse : " + this._vitesse_actuelle);
+            console.log("fuel level : " + this._fuelLevel);
+            console.log("conso instantanée : " + this._consommation);
+            console.log("//////////////////////////////////////////////////");
+            console.log("//////////////////////////////////////////////////");
         };
         //*************ATTRIBUTES********** */
         Vehicle.raceTotalDistance = 20;

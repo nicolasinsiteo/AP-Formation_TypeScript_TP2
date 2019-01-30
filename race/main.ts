@@ -112,13 +112,25 @@ KyleVehicle.addFuel(55);
 // END RANDOM VEHICLE
 
 
-
+let gorhksCar = new Voiture("Gorhk");
 
 ///////////////////////////////
 //// AESTHETIC INTERFACE //////
 ///////////////////////////////
-
+let vroum : boolean = false;
 document.getElementById("rouler").addEventListener("click", function(){
+    
+    if(vroum == false)
+    {
+    vroum = true
     document.getElementById("p1").innerHTML = "LETS GO !!  ";
+
+    gorhksCar.rouler(vroum);
+
+    }else{
+        vroum = false
+        gorhksCar.rouler(vroum);
+    }
+
   }); 
 

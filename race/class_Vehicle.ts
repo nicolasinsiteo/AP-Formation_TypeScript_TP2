@@ -28,7 +28,7 @@ protected _distance_parcourue : number = 0;
 protected _vitesse_actuelle : number = 0;
 protected _horn : string = "";
 protected _refreshRate : number = 1000;
-
+protected timer : any;
 
 
     constructor()
@@ -70,22 +70,25 @@ protected _refreshRate : number = 1000;
     //****************************************************************************************************** */
     // This method take a boolean argument to define if the conditions are good to launch the "divre phase"
     //****************************************************************************************************** */
-    rouler(statut:boolean)
+    
+    
+    rouler(status:boolean)
     {
-        let timer;
-        if(statut == true)// If conditions to drive are good, we enter the Method
+        
+        if(status == true)// If conditions to drive are good, we enter the Method
         {
-            timer = setInterval((()=>// each second (1000ms), this block is called till we stop "ROULER"
+            this.timer = setInterval((()=>// each second (1000ms), this block is called till we stop "ROULER"
             {
-                this._vitesse_actuelle = this.Accelerate();  // is a method that will increase the speed each cycle till the max speed is reached 
+                this._vitesse_actuelle += this.Accelerate();  // is a method that will increase the speed each cycle till the max speed is reached 
                 this._consommation = this.Consuming(); // is a method that return the fuel consuming ratio accordingly to the accelerate ratio
-                this._distance_parcourue = this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
-
+                this._distance_parcourue += this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
+                this._fuelLevel = this.FuelLevel();
+                this.ShowInfos();
             }), this._refreshRate);
             
             
         }else{
-            clearInterval(timer)
+            clearInterval(this.timer)
         }
         
 
@@ -129,8 +132,30 @@ protected _refreshRate : number = 1000;
     Distance():number
         {
 
-            return this._vitesse_actuelle/3600 * (this._refreshRate/1000);
+            return this._vitesse_actuelle/3600 *  (this._refreshRate/1000);
         } 
-        
+
+    
+    FuelLevel()
+    {
+       let consoSec = this._consommation * this.Distance() / 100
+
+       return this._fuelLevel - consoSec;
+
+    }
+
+
+    ShowInfos()
+    {
+        console.log("//////////////////////////////////////////////////");
+        console.log("//////////////////////////////////////////////////");
+        console.log("//////////////////////////////////////////////////");
+        console.log("distance parcourue : " +this._distance_parcourue );
+        console.log("vitesse : " +this._vitesse_actuelle );
+        console.log("fuel level : " +this._fuelLevel );
+        console.log("conso instantanée : " +this._consommation );
+        console.log("//////////////////////////////////////////////////");
+        console.log("//////////////////////////////////////////////////");
+    }    
         
 }

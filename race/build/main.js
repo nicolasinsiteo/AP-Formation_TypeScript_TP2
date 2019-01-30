@@ -83,10 +83,20 @@
     var KyleVehicle = SearchByName("Kyle");
     KyleVehicle.addFuel(55);
     // END RANDOM VEHICLE
+    var gorhksCar = new class_Voiture_1.Voiture("Gorhk");
     ///////////////////////////////
     //// AESTHETIC INTERFACE //////
     ///////////////////////////////
+    var vroum = false;
     document.getElementById("rouler").addEventListener("click", function () {
-        document.getElementById("p1").innerHTML = "LETS GO !!  ";
+        if (vroum == false) {
+            vroum = true;
+            document.getElementById("p1").innerHTML = "LETS GO !!  ";
+            gorhksCar.rouler(vroum);
+        }
+        else {
+            vroum = false;
+            gorhksCar.rouler(vroum);
+        }
     });
 });

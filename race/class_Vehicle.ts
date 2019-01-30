@@ -27,7 +27,7 @@ protected _fuelLevel : number = 0;
 protected _distance_parcourue : number = 0;
 protected _vitesse_actuelle : number = 0;
 protected _horn : string = "";
-protected _refreshRate : number = 1000;
+protected _refreshRate : number = 100;
 protected timer : any;
 
 
@@ -68,7 +68,7 @@ protected timer : any;
     /////// DEFINE METHOD ROULER ///
     ////////////////////////////////
     //****************************************************************************************************** */
-    // This method take a boolean argument to define if the conditions are good to launch the "divre phase"
+    // This method take a boolean argument to define if the conditions are good to launch the "drive phase"
     //****************************************************************************************************** */
     
     
@@ -83,6 +83,8 @@ protected timer : any;
                 this._consommation = this.Consuming(); // is a method that return the fuel consuming ratio accordingly to the accelerate ratio
                 this._distance_parcourue += this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
                 this._fuelLevel = this.FuelLevel();
+                document.getElementById("car").style.marginLeft = this.distance_parcourue;
+                
                 this.ShowInfos();
             }), this._refreshRate);
             
@@ -156,6 +158,12 @@ protected timer : any;
         console.log("conso instantanée : " +this._consommation );
         console.log("//////////////////////////////////////////////////");
         console.log("//////////////////////////////////////////////////");
-    }    
+    }  
+    
+    get distance_parcourue():string
+    {
+        //let distPix = this.distance_parcourue*10;
+        return this._distance_parcourue*1000+"px";
+    }
         
 }

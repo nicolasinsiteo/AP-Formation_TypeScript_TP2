@@ -31,7 +31,7 @@ MUST CONTAIN 3 ATTRIBUTES
             this._distance_parcourue = 0;
             this._vitesse_actuelle = 0;
             this._horn = "";
-            this._refreshRate = 1000;
+            this._refreshRate = 100;
             console.log("///// correctly created a vehicule and get acces to all attributes");
         }
         Vehicle.prototype.addFuel = function (amount) {
@@ -56,7 +56,7 @@ MUST CONTAIN 3 ATTRIBUTES
         /////// DEFINE METHOD ROULER ///
         ////////////////////////////////
         //****************************************************************************************************** */
-        // This method take a boolean argument to define if the conditions are good to launch the "divre phase"
+        // This method take a boolean argument to define if the conditions are good to launch the "drive phase"
         //****************************************************************************************************** */
         Vehicle.prototype.rouler = function (status) {
             var _this = this;
@@ -67,6 +67,7 @@ MUST CONTAIN 3 ATTRIBUTES
                     _this._consommation = _this.Consuming(); // is a method that return the fuel consuming ratio accordingly to the accelerate ratio
                     _this._distance_parcourue += _this.Distance(); // Calculate the travelled distance each time the Interval is refreshed
                     _this._fuelLevel = _this.FuelLevel();
+                    document.getElementById("car").style.marginLeft = _this.distance_parcourue;
                     _this.ShowInfos();
                 }), this._refreshRate);
             }
@@ -120,6 +121,14 @@ MUST CONTAIN 3 ATTRIBUTES
             console.log("//////////////////////////////////////////////////");
             console.log("//////////////////////////////////////////////////");
         };
+        Object.defineProperty(Vehicle.prototype, "distance_parcourue", {
+            get: function () {
+                //let distPix = this.distance_parcourue*10;
+                return this._distance_parcourue * 1000 + "px";
+            },
+            enumerable: true,
+            configurable: true
+        });
         //*************ATTRIBUTES********** */
         Vehicle.raceTotalDistance = 20;
         Vehicle.raceIsOver = false;

@@ -127,6 +127,7 @@ document.getElementById("rouler").addEventListener("click", function(){
 
     gorhksCar.rouler(vroum);
 
+    
     }else{
         vroum = false
         gorhksCar.rouler(vroum);
